@@ -1,22 +1,22 @@
-services:
+ï»¿services:
   stardust.server:
     image: ${DOCKER_REGISTRY-}stardustserver
     build:
       context: .
       dockerfile: Stardust.Server/Dockerfile
     environment:
-      # ÅäÖÃÊı¾İ¿âÁ¬½Ó£¨Ìæ»»ÎªMySQL£¬Ä¬ÈÏSQLite£©
+      # é…ç½®æ•°æ®åº“è¿æ¥ï¼ˆæ›¿æ¢ä¸ºMySQLï¼Œé»˜è®¤SQLiteï¼‰
       ConnectionStrings__Stardust: "Server=192.168.2.125;Database=StarServer;Uid=root;Pwd=bchc;CharSet=utf8mb4;"
-      # ĞÇ³¾·şÎñµØÖ·£¨ÈİÆ÷ÄÚÍøÂç£©
+      # æ˜Ÿå°˜æœåŠ¡åœ°å€ï¼ˆå®¹å™¨å†…ç½‘ç»œï¼‰
       StarServer__Address: "http://stardust.server:6600"
     volumes:
       - stardust-config-server:/app/config
       - stardust-logs:/app/logs
     ports:
-      - "6600:6600" # Ö±½Ó±©Â¶¶Ë¿Ú£¨Ìæ´úNginx×ª·¢£©
+      - "6600:6600" # ç›´æ¥æš´éœ²ç«¯å£ï¼ˆæ›¿ä»£Nginxè½¬å‘ï¼‰
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:6600/api/health"]
       interval: 10s
       timeout: 3s
       retries: 3
-      start_period: 20s # Æô¶¯ºóÑÓ³Ù20ÃëÔÙ¼ì²â£¨¸ø·şÎñ³õÊ¼»¯Ê±¼ä£©
+      start_period: 20s # å¯åŠ¨åå»¶è¿Ÿ20ç§’å†æ£€æµ‹ï¼ˆç»™æœåŠ¡åˆå§‹åŒ–æ—¶é—´ï¼‰
