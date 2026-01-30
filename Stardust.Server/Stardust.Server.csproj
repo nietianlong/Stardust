@@ -18,6 +18,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;NU5104;NETSDK1138;CS7035;CS9107</NoWarn>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
@@ -46,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="NewLife.IP" Version="2.4.2026.102" />
     <PackageReference Include="NewLife.Redis" Version="6.4.2026.111-beta1644" />
     <PackageReference Include="NewLife.Remoting.Extensions" Version="3.7.2026.125-beta1509" />
