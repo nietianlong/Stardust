@@ -16,7 +16,14 @@
       - "6600:6600" # 直接暴露端口（替代Nginx转发）
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:6600/api/health"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
+      interval: 10s  # 检查间隔
+      timeout: 3s    # 超时时间
+      retries: 3     # 重试次数
       start_period: 20s # 启动后延迟20秒再检测（给服务初始化时间）
+# 顶级节点：定义所有引用的卷（必须与services里的卷名一致）
+volumes:
+  stardust-config-server:
+    # 默认为匿名卷，也可指定driver（如local），按需扩展
+    driver: local
+  stardust-logs:
+    driver: local
