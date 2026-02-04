@@ -9,6 +9,7 @@
     <DockerServiceName>stardust.server</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="docker-compose-acr.yml" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>

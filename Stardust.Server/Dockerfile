@@ -2,8 +2,12 @@
 
 # 此阶段用于在快速模式(默认为调试配置)下从 VS 运行时
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
-USER $APP_UID
+
 WORKDIR /app
+# 新增：创建日志目录并赋权（适配非root用户）
+RUN mkdir -p /app/logs && chmod -R 777 /app/logs
+
+USER $APP_UID
 EXPOSE 6600
 
 
@@ -15,7 +19,8 @@ COPY ["Stardust.Server/Stardust.Server.csproj", "Stardust.Server/"]
 COPY ["Stardust.Data/Stardust.Data.csproj", "Stardust.Data/"]
 COPY ["Stardust/Stardust.csproj", "Stardust/"]
 COPY ["Stardust.Extensions/Stardust.Extensions.csproj", "Stardust.Extensions/"]
-RUN dotnet restore "./Stardust.Server/Stardust.Server.csproj"
+# 【可选：加--no-cache确保还原最新包，避免缓存漏包】
+RUN dotnet restore "./Stardust.Server/Stardust.Server.csproj" --no-cache
 COPY . .
 WORKDIR "/src/Stardust.Server"
 RUN dotnet build "./Stardust.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build
@@ -29,4 +34,8 @@ RUN dotnet publish "./Stardust.Server.csproj" -c $BUILD_CONFIGURATION -o /app/pu
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# 【可选：验证发布目录是否有日志目录，生产环境兜底】
+RUN test -d /app/logs || mkdir -p /app/logs
+
 ENTRYPOINT ["dotnet", "StarServer.dll"]
