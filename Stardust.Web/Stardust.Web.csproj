@@ -18,6 +18,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;NU5104;NETSDK1138;CS7035</NoWarn>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
@@ -51,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="NewLife.Cube.Core" Version="6.8.2026.128-beta0607" />
     <PackageReference Include="NewLife.IP" Version="2.4.2026.102" />
     <PackageReference Include="NewLife.Redis" Version="6.4.2026.111-beta1644" />
