@@ -5,7 +5,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 
 WORKDIR /app
 # 新增：创建日志目录并赋权（适配非root用户）
-RUN mkdir -p /app/logs && chmod -R 777 /app/logs
+RUN mkdir -p /app/config /app/logs && \
+    chmod -R 755 /app/config /app/logs && \
+    chown -R 1000:1000 /app
 
 USER $APP_UID
 EXPOSE 6600
@@ -36,6 +38,6 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # 【可选：验证发布目录是否有日志目录，生产环境兜底】
-RUN test -d /app/logs || mkdir -p /app/logs
+RUN test -d /app/config || mkdir -p /app/config
 
 ENTRYPOINT ["dotnet", "StarServer.dll"]
